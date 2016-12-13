@@ -37,11 +37,17 @@ public class CuadraticHashProbing  <K,V> implements ProbingMethod<K,V> {
     }
     
     @Override
+    /*NO CREO QUE ESTE BIEN PREGUNTAR A CRISTIAN*/
     public int nextSlot() {
+        int p=0;
+        int c1=1;
+        int c2=2;
+        
         while (cicleDetector<bucket.length) {
             Entry<K, V> e = bucket[nextSlot];
             currentSlot = nextSlot;
-            nextSlot = (nextSlot + 1) % bucket.length; 
+            nextSlot = (nextSlot +c1*p+c2*p*p) % bucket.length; 
+            p++;
             cicleDetector++;
             if ((e == null) || key.equals(e.getKey()) || (e == AVAILABLE)) {
                 return currentSlot;
