@@ -8,10 +8,12 @@ import junit.framework.TestCase;
 
 public class LinearProbingHashDictionaryTest extends TestCase {
 
-    private OAHashDictionary<String, Integer> listin;
+    //private OAHashDictionary<String, Integer> listin;
+    private SCHashDictionary<String, Integer> listin;
 
     public void testSize() {
-        listin = new OAHashDictionary<>();
+        //listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
         assertEquals(listin.size(), 0);
 
         listin.put("Jose", 912127659);
@@ -31,7 +33,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testIsEmpty() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         assertEquals(listin.isEmpty(), true);
         listin.put("Jose", 912127654);
         assertEquals(listin.isEmpty(), false);
@@ -40,7 +43,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testgetAll() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         assertEquals(listin.size(), 0);
 
         listin.put("Jose", 912127659);
@@ -65,7 +69,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testPutAndGet() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
 
         try {
             listin.get(null);
@@ -94,7 +99,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testRemove() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         listin.put("Jose", 912127651);
         listin.put("Andres", 912127624);
         listin.remove("Andres");
@@ -112,7 +118,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testValues() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         listin.put("Angel", 912127654);
         listin.put("Jose", 912127651);
         listin.put("Andres", 912127624);
@@ -132,7 +139,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testEntries() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         listin.put("Angel", 912127654);
         listin.put("Jose", 912127651);
         listin.put("Andres", 912127624);
@@ -154,7 +162,8 @@ public class LinearProbingHashDictionaryTest extends TestCase {
     }
 
     public void testKeys() {
-        listin = new OAHashDictionary<>();
+        listin = new SCHashDictionary<>();
+        //listin = new OAHashDictionary<>();
         listin.put("Angel", 912127654);
         listin.put("Jose", 912127651);
         listin.put("Andres", 912127624);
