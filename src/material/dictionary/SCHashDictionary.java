@@ -80,7 +80,7 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
     private class HashTableMapIterator<T, U> implements Iterator<Entry<T, U>> {
 
         private int pos;
-        private final HashEntry<T, U>[] bucket;
+        private final HashEntry<T, List<U>>[] bucket;
         private Entry<T, U> AVAILABLE;
 
         public HashTableMapIterator(HashEntry<T, U>[] b, Entry<T, U> av, int numElems) {
