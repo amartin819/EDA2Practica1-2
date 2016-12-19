@@ -5,6 +5,7 @@
  */
 package material.dictionary;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,7 +113,6 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
                
                 for(Entry<T,U> e : this.bucket[currentPos].value){
                     return e;
-                    
                 }
             }
             throw new RuntimeException("The map has not more elements");
@@ -171,8 +171,6 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
             throw new UnsupportedOperationException("Not implemented.");
         }
     }
-
-    final private ProbingMethod probingMethod;
     
     private int n = 0; // number of entries in the dictionary
     private int capacity; // prime factor and capacity of bucket array
@@ -181,11 +179,10 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
     /**
      * Creates a hash table with the given prime factor and capacity.
      * @param cap initial capacity
-     * @param probingMethod
      */
-    protected SCHashDictionary() {
+    protected SCHashDictionary(int cap) {
         this.n = 0;
-        this.capacity = 1000;
+        this.capacity = cap;
         this.bucket =  (HashEntry < K, List<HashEntry<K, V>>>[]) new HashEntry[capacity]; // safe cast
     }
     
@@ -201,30 +198,26 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
 
     @Override
     public void put(K key, V value) {
-        int i;
+        int i = this.hashValue(key);
+        HashEntry<K,V> val = null;
+        val.key = key;
+        val.setValue(value);
+        List<HashEntry<K,V>> v;
         
         if(bucket[i].equals(null)){
-            List<Entry<K,V>> b = new LinkedList<>();
-            bucket[i] = new List<HashEntry<>(key, value); // convert to proper entry
-            b.add(bucket[i]);
+            v = new ArrayList<>();
+            this.bucket[i] = (HashEntry<K, List<HashEntry<K, V>>>) v; // convert to proper entry
         }else{
-            List<Entry<K,V>> b = new LinkedList<>();
-            bucket[i] = new HashEntry<>(key, value); // convert to proper entry            
-            b.remove(key);
-            b.add(bucket[i]);
+            v = bucket[i].value;           
+            v.remove(key);
         }
-        n++;
+        v.add(val);
     }
 
     @Override
     public V get(K key) {
         int i = this.hashValue(key);
-        List<HashEntry<K,V>> l= this.bucket[i].value;
-        
-        if((i == -1) || probingMethod.newSlot())
-            return null; //there is not value for this key
-        
-        return bucket[i].getValue();
+        return (V) bucket[i].getValue();
     }
 
     @Override
@@ -236,21 +229,18 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
             if(e.key == key)
                 l.add(e.value);
         }
-        
         return l;
     }
 
     @Override
     public V remove(K key) {
-        probingMethod.find(key, hashValue(key));
-        int i = probingMethod.nextSlot();
+        int i = this.hashValue(key);
         
-        if(probingMethod.newSlot())
+        if(this.bucket[i]==null)
             return null; //nothing to remove
         
-        V toReturn = bucket[i].getValue();
-        bucket[i] = (HashEntry<K, V>) AVAILABLE;
-        n--;
+        V toReturn = (V) bucket[i].getValue();
+        bucket[i].setValue(null);
         return toReturn;
     }
 
@@ -294,7 +284,7 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
         return (int) (Math.abs(key.hashCode() % prime) % capacity);
     }
     
-    protected void rehash() {
+    /*protected void rehash() {
         //reservar un array del doble del tamaño
         //guardamos el antiguo un rato para copiarlo
         //recorrer con un iterador las entradas de mi array
@@ -311,6 +301,6 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
                 put(oldBucket[i].getKey(), oldBucket[i].getValue());
         }
         
-    }
+    }*/
     
 }
