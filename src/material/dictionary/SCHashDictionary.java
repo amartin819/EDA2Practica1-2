@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author jvelez
  */
-public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
+public class SCHashDictionary<K,V> implements Dictionary<K,V>{
     
      /**
      * @param <T> Key type
@@ -207,6 +207,7 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
         if(bucket[i].equals(null)){
             v = new ArrayList<>();
             this.bucket[i] = (HashEntry<K, List<HashEntry<K, V>>>) v; // convert to proper entry
+            n++;
         }else{
             v = bucket[i].value;           
             v.remove(key);
@@ -284,23 +285,23 @@ public class SCHashDictionary  <K,V> implements Dictionary<K,V>{
         return (int) (Math.abs(key.hashCode() % prime) % capacity);
     }
     
-    /*protected void rehash() {
+    protected void rehash() {
         //reservar un array del doble del tamaño
         //guardamos el antiguo un rato para copiarlo
         //recorrer con un iterador las entradas de mi array
         //recorrer las entradas de mi bucket antiguo
         //insertar en el nuevo bucket las entradas
         
-        HashEntry<K,V>[] oldBucket = bucket;
+        HashEntry<K,List<HashEntry<K,V>>>[] oldBucket = bucket;
         capacity*=2;
-        this.bucket = (HashEntry<K,V>[]) new HashEntry[capacity];
+        this.bucket = (HashEntry<K,List<HashEntry<K,V>>>[]) new HashEntry<>[capacity];
         this.n = 0;
         
         for (int i=0; i<oldBucket.length; i++){
             if((oldBucket[i] != null))
-                put(oldBucket[i].getKey(), oldBucket[i].getValue());
+                put(oldBucket[i].getKey(), oldBucket[i].value.get(i).getValue());
         }
         
-    }*/
+    }
     
 }
