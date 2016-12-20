@@ -1,5 +1,7 @@
 package material.netflix;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Set;
 
 /**
@@ -14,7 +16,17 @@ public class Netflix {
      * @param file 
      */
     public Netflix(String file) {
-        
+        try{
+            BufferedReader bfName = new BufferedReader(new FileReader(file));
+            String tempName = "";
+            String bfNameRead;
+                        
+            while((bfNameRead = bfName.readLine()) != null){
+                tempName = tempName + bfNameRead;
+            }
+        }catch(Exception e){
+            System.err.println("The specific file doesnt exist.");
+        }
     }
             
     /**
