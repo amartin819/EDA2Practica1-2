@@ -80,9 +80,9 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
     private class HashTableMapIterator<T, U> implements Iterator<Entry<T, U>> {
 
         private int pos;
-        private final HashEntry<T, List<HashEntry<T,U>>>[] bucket;
+        private final HashEntry<T, LinkedList<HashEntry<T,U>>>[] bucket;
 
-        public HashTableMapIterator(HashEntry<T, List<HashEntry<T,U>>>[] b, int numElems) {
+        public HashTableMapIterator(HashEntry<T, LinkedList<HashEntry<T,U>>>[] b, int numElems) {
             this.bucket = b; //añadir: para que no falle hasNext al comparar pos < bucket.length
             if (numElems == 0) {
                 this.pos = bucket.length;
@@ -174,7 +174,7 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
     
     private int n = 0; // number of entries in the dictionary
     private int capacity; // prime factor and capacity of bucket array
-    private final HashEntry<K, List<HashEntry<K,V>>> [] bucket;// bucket array
+    private final HashEntry<K, LinkedList<HashEntry<K,V>>> [] bucket;// bucket array
         
     /**
      * Creates a hash table with the given prime factor and capacity.
@@ -183,7 +183,7 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
     protected SCHashDictionary(int cap) {
         this.n = 0;
         this.capacity = cap;
-        this.bucket =  (HashEntry < K, List<HashEntry<K, V>>>[]) new HashEntry[capacity]; // safe cast
+        this.bucket =  (HashEntry < K, LinkedList<HashEntry<K, V>>>[]) new HashEntry[capacity]; // safe cast
     }
     
     @Override
@@ -206,7 +206,7 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
         
         if(bucket[i].equals(null)){
             v = new ArrayList<>();
-            this.bucket[i] = (HashEntry<K, List<HashEntry<K, V>>>) v; // convert to proper entry
+            this.bucket[i] = (HashEntry<K, LinkedList<HashEntry<K, V>>>) v; // convert to proper entry
             n++;
         }else{
             v = bucket[i].value;           
@@ -285,7 +285,7 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
         return (int) (Math.abs(key.hashCode() % prime) % capacity);
     }
     
-    protected void rehash() {
+    /*protected void rehash() {
         //reservar un array del doble del tamaño
         //guardamos el antiguo un rato para copiarlo
         //recorrer con un iterador las entradas de mi array
@@ -302,6 +302,6 @@ public class SCHashDictionary<K,V> implements Dictionary<K,V>{
                 put(oldBucket[i].getKey(), oldBucket[i].value.get(i).getValue());
         }
         
-    }
+    }*/
     
 }
